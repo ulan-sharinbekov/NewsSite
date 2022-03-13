@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{%block title%}
+{{title}} :: {{block.super}}
+{%endblock%}
+
+{%block sidebar%}
+ <div class="col-md-3">
+            <div class="list-group">
+                {%for c in categories %}
+                <a href="{% url 'category' c.pk%}" class="list-group-item list-group-item-action">{{c.title}}</a>
+            <!--<a href="/category/{{ c.pk}}" class="list-group-item list-group-item-action">{{c.title}}</a> -->
+                {%endfor%}
+            </div>
+ </div>
+
+{%endblock%}
+
+
+{%block content%}
+<div class="col-md-9">
+        {%for n in news %}
+<div class="card mb-3">
+  <div class="card-header">
+    Категория:  <a href="{% url 'category' n.category.pk %}">{{n.category}}</a>
+  </div>
+  <div class="card-body">
+    <div class="media">
+     {% if n.photo %}
+     <img src="{{n.photo.url}}" alt="">
+     {% endif %}
+
+     <div class="media-body">
+    <h5 class="card-title">{{n.title}}</h5>
+    <p class="card-text">{{n.content|linebreaks|truncatewords:50}}</p>
+    <a href="#" class="btn btn-primary">Прочитать ...</a>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-muted">
+    {{n.created_at|date:"Y-m-d H:m:s"}}
+  </div>
+</div>
+        {%endfor%}
+            </div>
+{%endblock%}
+
